@@ -1,0 +1,82 @@
+                                Java Installation  in RHEL
+##Login as a root user
+sudo su -
+
+##Change dir to /opt 
+cd /opt
+yum install wget -y
+wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+yum install jdk-8u131-linux-x64.rpm -y
+
+java -version
+
+
+
+
+                     Java Installation in Ubuntu Linux Server
+
+ 
+
+ By default, Ubuntu 18.04 includes OpenJDK version 11,which is an open-source variant of the JRE and JDK.
+
+To install this version, first update the package index with below command.
+
+#sudo apt update
+
+Then execute below commands based on which version you want to install.
+
+#apt install default-jre : For Defauly version.
+#apt install openjdk-11-jre-headless : For Java 11
+#apt install openjdk-8-jre-headless : For Java 8
+
+Verify the Java installation with below command.
+#java -version
+
+To install the JDK, execute the following command, which will also install the JRE.
+
+#sudo apt install default-jdk
+
+Verify that the JDK is installed by checking the version of javac, the Java compiler using below command.
+
+#javac -version
+
+
+To Install the Open JDK 8, use the below command.
+
+#sudo apt install openjdk-8-jdk
+
+
+
+
+
+                         SonarQube Server Installation
+
+#Hardware Requirements for SonarQube
+#----------------------------------------------------
+#The SonarQube server requires at least 2GB of RAM to run efficiently and 1GB of free RAM for the OS.
+
+#Login as a root user.
+sudo su -
+
+#Download the SonarqQube Server software.
+cd /opt
+yum install wget unzip -y
+wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.8.zip
+unzip sonarqube-7.8.zip
+
+
+#As a good security practice, SonarQuber Server is not advised to run sonar service as a root user, so create a new user called nexus and grant sudo access to manage nexus services as follows.
+useradd sonar
+
+Give the sudo access to sonar user
+visudo
+
+sonar   ALL=(ALL)       NOPASSWD: ALL
+
+Change the owner and group permissions to /opt/sonarqube-7.8/ directory.
+chown -R sonar:sonar /opt/sonarqube-7.8/
+chmod -R 775 /opt/sonarqube-7.8/
+su - sonar
+cd /opt/sonarqube-7.8/bin/linux-x86-64/
+
+./sonar.sh start 
